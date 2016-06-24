@@ -32,13 +32,13 @@ $('form').submit(function() {
     var words = $('#m').val()
 
     if (language == 'en') {
-        if (words == 'shake') socket.emit('shake');
+        if (words == 'shake' || words == 'bounce') socket.emit('shake');
         if (words == 'japanese') socket.emit('lang jap');
         if (words == 'english') socket.emit('lang eng');
         socket.emit('chat message', "{{username}}   :  " + words);
         $('#m').val('');
     } else {
-        if (words == 'shake') socket.emit('shake');
+        if (words == 'shake' || words == 'bounce') socket.emit('shake');
         if (words == 'english') socket.emit('lang eng');
         if (words == 'japanese') socket.emit('lang jap');
         socket.emit('jap message', "{{username}}   :  " + words);

@@ -6,11 +6,12 @@ function modlang(string) {
     if (current == 'ja') {
         document.getElementById("lang").innerHTML = 'en';
     } else document.getElementById("lang").innerHTML = 'ja';
-
 }
 
 function shake() {
     $("#body").effect("shake");
+    $("#body").effect("highlight");
+    $("#body").effect("bounce");
 }
 
 var state = {
