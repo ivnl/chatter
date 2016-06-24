@@ -58,6 +58,8 @@ socket.on('change jap', function() {
 
 socket.on('shake screen', function() {
     shake();
+    $("#msgbox").scrollTop($("#msgbox").get(0).scrollHeight);
+    $("body").scrollTop($("body").get(0).scrollHeight);
 });
 
 socket.on('chat message', function(msg) {
