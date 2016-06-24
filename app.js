@@ -35,8 +35,7 @@ const translate = require('yandex-translate')('trnsl.1.1.20160623T160703Z.cd537d
 // var routes = require('./routes/index');
 // var users = require('./routes/users');
 
-
-//database connections (to psql)
+//database connections (to psql) *will be used later
 var promise = require('bluebird');
 
 var options = {
@@ -64,30 +63,35 @@ app.get('/', function(req, res, next) {
     res.render('index');
 });
 
+var newUser = "";
+
 app.post('/chat', function(req, res, next) {
-    var newUser = req.body;
+    newUser = req.body;
     console.log(newUser);
     res.render('chat', { username: newUser.username });
 });
 
 io.on('connection', function(socket) {
-    console.log('Client connected');
+    console.log('User Connected');
+    io.emit('chat message', newUser.username + " has connected :)");
 
-    // socket.on('connection', function(msg) {
-    //     io.emit('connection', msg);
-    // });
+    socket.on('disconnect', function(msg) {
+        io.emit('chat message', newUser.username + " has disconnected :(");
+        console.log('Client Disconnected');
+    });
+
+    socket.on('shake', function() {
+        io.emit('shake screen');
+    });
+
     socket.on('lang eng', function() {
         io.emit('change eng');
     });
-    
+
     socket.on('lang jap', function() {
         io.emit('change jap');
     });
 
-    socket.on('disconnect', function(msg) {
-        io.emit('disconnect', msg);
-        console.log('Client disconnected');
-    });
     socket.on('chat message', function(msg) {
         translate.translate(msg, { to: 'en' }, function(err, res) {
             io.emit('chat message', res.text);

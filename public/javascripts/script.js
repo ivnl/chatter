@@ -9,20 +9,10 @@ function modlang(string) {
 
 }
 
-$("#right").click(function() {
-    $("#square").animate({ "left": "+=50px" }, "fast");
-});
-
-$("#left").click(function() {
-    $("#square").animate({ "left": "-=50px" }, "fast");
-});
-
-
-// var color = $('html').css("background-color");
-
+function shake() {
+    $("#body").effect("shake");
+}
 
 var state = {
-
     'color': $('html').css("background-color"),
-
 };
