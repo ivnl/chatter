@@ -7,4 +7,6 @@
 
 ###Heroku view: https://sleepy-depths-71211.herokuapp.com/
 
-todo: add database functionality, add more things for users to interact with, clean up UI
+translation engine provided by: [Yandex Translate API](https://tech.yandex.com/translate/)
+
+[todo]: add database functionality, add more things for users to interact with, clean up UI
