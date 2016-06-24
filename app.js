@@ -59,11 +59,31 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/', routes);
 // app.use('/users', users);
 
+var newUser = "";
+var players = [];
+
+function newPlayer() {
+    this.name;
+    this.id = 1;
+    this.x = Math.random() * 500;
+    this.y =  Math.random() * 500;
+    //Random colors
+    var r = Math.random()*255>>0;
+    var g = Math.random()*255>>0;
+    var b = Math.random()*255>>0;
+    this.color = "rgba(" + r + ", " + g + ", " + b + ", 0.5)";
+
+    //Random size
+    this.radius = Math.random()*20+20;
+    this.speed =  5;
+
+    return {'name' : this.name,"x" : this.x,"y" : this.y,"color" : this.color, "radius" : this.radius,"speed" : this.speed}
+}
+
+
 app.get('/', function(req, res, next) {
     res.render('index');
 });
-
-var newUser = "";
 
 app.post('/chat', function(req, res, next) {
     newUser = req.body;
@@ -72,13 +92,57 @@ app.post('/chat', function(req, res, next) {
 });
 
 io.on('connection', function(socket) {
+
+
+var currentPlayer = new newPlayer(); //new player made
+    players.push(currentPlayer); //push player object into array
+
+    //create the players Array
+    socket.broadcast.emit('currentUsers', players);
+    socket.emit('welcome', currentPlayer, players);
+
+        //disconnected
+    socket.on('disconnect', function(){
+        players.splice(players.indexOf(currentPlayer), 1);
+        console.log(players);
+        socket.broadcast.emit('playerLeft', players);
+    });
+
+    socket.on('pressed', function(key){
+        if(key === 38){
+            currentPlayer.y -= currentPlayer.speed;
+            socket.emit('PlayersMoving', players);
+            socket.broadcast.emit('PlayersMoving', players);
+        } 
+        if(key === 40){
+            currentPlayer.y += currentPlayer.speed;
+            socket.emit('PlayersMoving', players);
+            socket.broadcast.emit('PlayersMoving', players);
+        } 
+        if(key === 37){
+            currentPlayer.x -= currentPlayer.speed;
+            socket.emit('PlayersMoving', players);
+            socket.broadcast.emit('PlayersMoving', players);
+        } 
+        if(key === 39){
+            currentPlayer.x += currentPlayer.speed;
+            socket.emit('PlayersMoving', players);
+            socket.broadcast.emit('PlayersMoving', players);
+        }
+    });
+
+
+
+
+
+
     console.log('User Connected');
     io.emit('chat message', newUser.username + " has connected :)");
 
-    socket.on('disconnect', function(msg) {
-        io.emit('chat message', newUser.username + " has disconnected :(");
-        console.log('Client Disconnected');
-    });
+    // socket.on('disconnect', function(msg) {
+    //     io.emit('chat message', newUser.username + " has disconnected :(");
+    //     console.log('Client Disconnected');
+    // });
 
     socket.on('shake', function() {
         io.emit('shake screen');

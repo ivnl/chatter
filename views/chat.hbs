@@ -2,6 +2,9 @@
 <script src="/javascripts/script.js"></script>
 
 <body id="body">
+    <canvas id="canvas" width="1000" height="1000">
+        Your Browser Does Not Support Canvas and HTML5
+    </canvas>
     <div id="top">
         <ul>
             <li>
@@ -21,6 +24,7 @@
         <button style="color:white; font-size:16px; font-weight:600">SEND</button>
     </form>
 </body>
+<script type="text/javascript" src="/javascripts/engine.js"></script>
 <script>
 var socket = io();
 var language = document.getElementById("lang").innerHTML;
