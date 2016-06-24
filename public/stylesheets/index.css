@@ -1,0 +1,18 @@
+body {
+	
+	background-color: white;
+
+}
+
+.container {
+	margin:120px;
+	width: 80%;
+}
+
+#inputName {
+	width: 65%;
+}
+
+#chatbtn {
+	width: 65%;
+}

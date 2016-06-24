@@ -1,0 +1,78 @@
+<link rel='stylesheet' href='/stylesheets/chat.css' />
+<script src="/javascripts/script.js"></script>
+
+<body>
+    {{!--     <div id="square"></div>
+ --}}
+    <div id="top">
+        <ul>
+            <li>
+                <h1 style="">*{{username}}</h1></li>
+            <li>
+                <button class="button" style="" type="button" onclick="modlang()">
+                    <h2 id="lang">en</h2></button>
+            </li>
+        </ul>
+    </div>
+    <div id="msgbox">
+        <ul id="messages"></ul>
+    </div>
+    <form action="">
+        <input id="m" autocomplete="off" required/>
+        <button style="color:white; font-size:16px; font-weight:600">SEND</button>
+    </form>
+</body>
+<script>
+var socket = io();
+var language = document.getElementById("lang").innerHTML;
+
+$('form').submit(function() {
+    language = document.getElementById("lang").innerHTML;
+    console.log(language);
+
+    var words = $('#m').val()
+
+    if (language == 'en') {
+        if (words == 'japanese') socket.emit('lang jap');
+
+        socket.emit('chat message', "{{username}}   :  " + words);
+        $('#m').val('');
+    } else {
+        if (words == 'english') socket.emit('lang eng');
+
+        socket.emit('jap message', "{{username}}   :  " + words);
+        $('#m').val('');
+    }
+
+    return false;
+});
+
+socket.on('change eng', function() {
+
+    document.getElementById("lang").innerHTML = 'en';
+});
+
+socket.on('change jap', function() {
+    document.getElementById("lang").innerHTML = 'ja';
+});
+
+socket.on('disconnect', function(msg) {
+    $('#messages').append($('<li>').text("someone disconnected :("));
+    $("#msgbox").scrollTop($("#msgbox").get(0).scrollHeight);
+});
+
+socket.on('connection', function(msg) {
+    $('#messages').append($('<li>').text("user connected :)"));
+    $("#msgbox").scrollTop($("#msgbox").get(0).scrollHeight);
+});
+
+socket.on('chat message', function(msg) {
+    $('#messages').append($('<li tabindex="1">').text(msg));
+    $("#msgbox").scrollTop($("#msgbox").get(0).scrollHeight);
+});
+
+socket.on('jap message', function(msg) {
+    $('#messages').append($('<li tabindex="1">').text(msg));
+    $("#msgbox").scrollTop($("#msgbox").get(0).scrollHeight);
+});
+</script>
