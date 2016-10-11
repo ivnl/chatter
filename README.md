@@ -5,7 +5,7 @@
 ###Switch from outputting English to Japanese or vice versa by pressing 'en' or 'ja' at the top
 ###Type "english", or "japanese" in chat to force everyone in the room to switch with you
 
-###Heroku view: https://sleepy-depths-71211.herokuapp.com/
+###Heroku view: https://chatter1234.herokuapp.com/
 
 translation engine provided by: [Yandex Translate API](https://tech.yandex.com/translate/)
 
